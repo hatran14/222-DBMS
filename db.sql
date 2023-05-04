@@ -1,4 +1,4 @@
-drop database if exists `main_app`;
+﻿drop database if exists `main_app`;
 create database if not exists `main_app`;
 use `main_app`;
 
@@ -35,9 +35,9 @@ create table if not exists `user` (
     `mobile` varchar(20) unique not null,
     `email` varchar(50) unique not null,
     `hashedPassword` varchar(200) not null,
-    `registeredAt` datetime not null,
-    `lastLogin` datetime not null,
-    `passwordChangedAt` datetime not null,
+    `registeredAt` datetime not null default CURRENT_TIMESTAMP,
+    `lastLogin` datetime not null default CURRENT_TIMESTAMP,
+    `passwordChangedAt` datetime not null default CURRENT_TIMESTAMP,
     `isAdmin` tinyint(1) not null default 0,
     `avatar` varchar(100) not null,
     primary key(`id`)
@@ -48,7 +48,7 @@ create table if not exists `order` (
     `userId` int not null,
     `sessionId` varchar(20) not null,
     `token` varchar(20) not null,
-    `status` varchar(10) not null,
+    `status` varchar(100) not null,
     `tax` float not null,
     `subTotal` float not null,
     `voucherId` int,
@@ -107,8 +107,8 @@ create table if not exists `transaction` (
     `code` varchar(10),
     `type` varchar(10) not null,
     `status` int not null,
-    `createdAt` datetime not null,
-    `updatedAt` datetime not null,
+    `createdAt` datetime not null default CURRENT_TIMESTAMP,
+    `updatedAt` datetime not null default CURRENT_TIMESTAMP,
     primary key (`id`, `userId`, `orderId`),
     foreign key (`userId`) references `user`(`id`) ON DELETE NO ACTION,
     foreign key (`orderId`) references `order`(`id`) ON DELETE NO ACTION
@@ -152,7 +152,7 @@ create table if not exists `review` (
     `productId` int NOT NULL,
     `userId` int NOT NULL,
     `star` int NOT NULL,
-    `date` datetime NOT NULL,
+    `date` datetime NOT NULL default CURRENT_TIMESTAMP,
     `content` varchar(2000) NOT NULL,
     primary key(`id`),
     foreign key (`productId`) references `product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -166,18 +166,18 @@ INSERT INTO `category` (`id`, `title`) VALUES ('4', 'Đồng hồ');
 
 
 INSERT INTO `product` (`id`, `name`, `color`, `salePercent`, `price`, `manufacturer`, `html`, `image`) VALUES
-(1, 'iPhone 13 128GB', 'Hồng', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x358,webp,q100/media /catalog/product/1/4/14_1_9_2_9.jpg'),
-(2, 'iPhone 13 128GB', 'Đen', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /_/e/_vi_2_5.jpg'),
-(3, 'iPhone 13 128GB', 'Xanh', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /x/n/xnnah_kas_3.png'),
-(4, 'iPhone 13 128GB', 'Trắng', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /t/r/tr_ng_5.jpg'),
-(5, 'iPhone 13 128GB', 'Đỏ', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /f/i/file_3_10.jpg'),
-(6, 'iPhone 13 128GB', 'Xanh dương', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /d/_/d_ng_3.jpg'),
-(7, 'iPhone 13 256GB', 'Hồng', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /d/_/d_ng_3.jpg'),
-(8, 'iPhone 13 256GB', 'Đen', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /_/e/_vi_2_5.jpg'),
-(9, 'iPhone 13 256GB', 'Xanh', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /x/n/xnnah_kas_3.png'),
-(10, 'iPhone 13 256GB', 'Trắng', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /t/r/tr_ng_5.jpg'),
-(11, 'iPhone 13 256GB', 'Đỏ', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /f/i/file_3_10.jpg'),
-(12, 'iPhone 13 256GB', 'Xanh dương', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product /d/_/d_ng_3.jpg'),
+(1, 'iPhone 13 128GB', 'Hồng', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/4/14_1_9_2_9.jpg'),
+(2, 'iPhone 13 128GB', 'Đen', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/2/12_3_8_2_8.jpg'),
+(3, 'iPhone 13 128GB', 'Xanh', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/x/n/xnnah_kas_3.png'),
+(4, 'iPhone 13 128GB', 'Trắng', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/t/r/tr_ng_5.jpg'),
+(5, 'iPhone 13 128GB', 'Đỏ', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/3/13_4_7_2_7.jpg'),
+(6, 'iPhone 13 128GB', 'Xanh dương', 20, 24990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/d/_/d_ng_3.jpg'),
+(7, 'iPhone 13 256GB', 'Hồng', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/4/14_1_9_2_9.jpg'),
+(8, 'iPhone 13 256GB', 'Đen', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/2/12_3_8_2_8.jpg'),
+(9, 'iPhone 13 256GB', 'Xanh', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/x/n/xnnah_kas_3.png'),
+(10, 'iPhone 13 256GB', 'Trắng', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/t/r/tr_ng_5.jpg'),
+(11, 'iPhone 13 256GB', 'Đỏ', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/3/13_4_7_2_7.jpg'),
+(12, 'iPhone 13 256GB', 'Xanh dương', 20, 27990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x/media/catalog/product/d/_/d_ng_3.jpg'),
 (13, 'Apple MacBook Air M1 256GB 2020', 'Trắng', 30, 28990000, 'Apple', '', 'https://cdn2.cellphones.com.vn/358x358,webp, q100/media/catalog/product/a/i/air_m2.png'),
 (14, 'Laptop HP Gaming Victus 15-FA0031DX 6503849', 'Đen', 20, 22990000, 'Hp', '', 'https://cdn2.cellphones.com.vn/358x358, webp,q100/media/catalog/product/l/a/laptop-hp-gaming-victus-15-fa0031dx-6503849-6.jpg'),
 (15, 'Laptop Dell Inspiron 3511 5829BLK', 'Đen', 10, 15990000, 'Dell', '', 'https://cdn2.cellphones.com.vn/358x358,webp,q100 /media/catalog/product/t/e/text_ng_n_3__1_71.png'),
@@ -316,3 +316,10 @@ INSERT INTO `attribute_value` (`id`, `id_attribute`, `value`, `productId`) VALUE
 (32, 35, 'Hỗ trợ 5G, Sạc không dây, Nhận diện khuôn mặt, Kháng nước, kháng bụi', 1),
 (33, 37, '1_main.png', 1),
 (34, 37, '1_43534534.png', 1);
+
+INSERT
+INTO `user` (`name`, `mobile`, `email`, `hashedPassword`, `isAdmin`, `avatar`)
+VALUES ('name', 'admin', 'admin@admin.com', '$2y$10$EL973vCcI8rScwfy8qF4.eHW0ZQDv/ITBsgND.wBx8y.3eJqmfyvG', 1, 'ava')
+;
+INSERT INTO `user` VALUES (1,'Mr. Furman Osinski III','788-256-5364','bmccullough@example.org','12e5823aba90c366c5b9a1f31f196873a1894fd4','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(2,'Edwin Sauer','02919605425','ernie25@example.com','4f46065f82e6c6d4ed4a84d90bf15c4312de5102','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(3,'Mollie Ruecker','1-959-199-9780x65777','sylvan91@example.net','0b1d85e63d449229e9d47f05f28d28fef180b609','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(4,'Dr. Cecil Bradtke','1-549-549-8451x6841','josiah92@example.com','242cc95244f46dda331468bdfa0878832dfcdee2','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(5,'Everett Streich','611.269.4340x44844','margie.schiller@example.org','e66215ec5666cba978c4e5af08f4480eff29f3d0','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(6,'Jerad White','+72(8)5710147485','roob.jaeden@example.net','b6af02a57d427628914f9a7e53c2ea690bc1db6e','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(7,'Dr. Nicklaus Koss','1-117-318-6496x89063','hchristiansen@example.org','52d815835d3499c2d095a968b22fa3f52763b5ab','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(8,'Misael Spinka','(438)000-3486','jake.rippin@example.com','a20de43b8a04d1702c94a213dd4f4dad57d8c640','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(9,'Boyd Heaney','07645367153','mariana34@example.org','dd22b3f288f337789af2d6058dc75ca0d752a073','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),(10,'Dr. Eliezer Barrows','02143673376','hegmann.angeline@example.org','0b3bf810d3a2e46e6e9435524ca80b73c016c88a','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,'');
+INSERT INTO `order` VALUES (1,8,'bd987bb96709df6ee0f5','','Đã giao',0,40100000,NULL,0,'Aperiam quia omnis mollitia repellendus repudiandae tempore esse. Non sequi tempora eum tempora. Ull'),(2,3,'b1fd47bc3e97cb919a8a','','Đã thanh toán',0,20300000,NULL,0,'Mollitia a odio architecto ab et. Repellendus soluta a libero fugiat aperiam. Sit iusto quod sed com'),(3,8,'ea50706c465101a2ecc2','','Đã thanh toán',0,6900000,NULL,0,'Sed voluptatibus magnam ad quasi dolore cumque. Itaque quis deserunt itaque expedita facilis. Quisqu'),(4,3,'7a338445ee477527311d','','Chờ thanh toán',0,26100000,NULL,0,'Aut ut modi in aliquam. Voluptatem quia odio similique laboriosam ab amet aut facere. Dolores reicie'),(5,2,'691b74b099ccce5032ff','','Đã hủy',0,35400000,NULL,0,'Explicabo officia voluptas praesentium quibusdam. Aspernatur exercitationem voluptate aliquam soluta'),(6,3,'5e5d1173c5db96f10ca5','','Chờ lấy hàng',0,44100000,NULL,0,'Non totam repellendus officia. Possimus recusandae quibusdam ea qui qui velit. Eveniet asperiores do'),(7,10,'9a659e6a7005ec12dc3a','','Chờ lấy hàng',0,10900000,NULL,0,'Vero dolor qui quae molestiae qui ullam. Laudantium culpa reprehenderit voluptate fugiat qui modi do'),(8,5,'9996bace5d45712269a9','','Chờ lấy hàng',0,22600000,NULL,0,'Adipisci inventore blanditiis itaque eligendi. Odit perspiciatis aperiam expedita qui velit expedita'),(9,3,'e091f279d2b6a1724cbe','','Đã thanh toán',0,29900000,NULL,0,'Iste qui tempore neque voluptas ut voluptates. Adipisci quia tenetur earum necessitatibus aliquid pr'),(10,4,'f4f17a25b8de1ae4290b','','Chờ lấy hàng',0,39300000,NULL,0,'Aut natus et natus fugit quod voluptatum numquam sit. Eos iste quas nihil pariatur aut. Libero tempo'),(11,6,'d00dedab951f1fb9bbfb','','Chờ thanh toán',0,43800000,NULL,0,'Quis hic assumenda est voluptas alias. Porro voluptas incidunt assumenda. Ex molestias ipsa dolorem '),(12,10,'d7e7c834e4df6ffd2f8a','','Đang giao',0,26700000,NULL,0,'Et aut aspernatur id consequatur. Dicta rerum ut non illum eveniet velit inventore.'),(13,5,'96e95776bfbcaccc47aa','','Đã thanh toán',0,23900000,NULL,0,'Architecto iste consequatur et in qui voluptatum. Ratione voluptatem autem quia ea omnis sequi labor'),(14,6,'12c07a08cb8f29439aba','','Đã giao',0,29400000,NULL,0,'Aliquid neque est veniam labore. Aliquam necessitatibus voluptatem maiores excepturi sit dicta. Saep'),(15,9,'34cad6231eea3e20eae8','','Chờ lấy hàng',0,18800000,NULL,0,'Fugit ducimus autem ut consequatur nobis. Dignissimos excepturi ipsum hic possimus. Et libero perspi'),(16,4,'762ca432a1cff6c15da2','','Đang giao',0,15600000,NULL,0,'Rerum quas id sed perspiciatis. Eaque consequatur eum voluptas et delectus velit. Tempora delectus m'),(17,1,'93582d770b028f812356','','Chờ thanh toán',0,43100000,NULL,0,'Reprehenderit ratione perferendis at aut pariatur repellendus molestias. Aut in eum dolores optio qu'),(18,7,'c53975de402381aed631','','Chờ lấy hàng',0,18400000,NULL,0,'Debitis rerum distinctio velit harum deserunt. Voluptatum veniam omnis necessitatibus optio. Volupta'),(19,9,'9387349c48f5d02a92ae','','Đã hủy',0,28100000,NULL,0,'Mollitia voluptatibus tenetur facere non accusantium. Repellendus mollitia esse recusandae incidunt.'),(20,9,'3415057d26c90e6614e3','','Chờ lấy hàng',0,27700000,NULL,0,'Dolorem et reiciendis ratione natus amet. Magni sed in voluptate corrupti tenetur ducimus quibusdam '),(21,4,'acb77a0aa57c2b7a094b','','Đã thanh toán',0,38100000,NULL,0,'Eaque ipsum sint et qui laudantium quia. Quae aut magni consequatur quae aut. Voluptatum sint et del'),(22,6,'b2659ba0c1871709a7b7','','Đã giao',0,19400000,NULL,0,'In pariatur molestiae aut odit. Est iste molestiae minus natus dolorem id. Minus nostrum unde dolore'),(23,10,'b14dc6ac983ba37598eb','','Đã thanh toán',0,6700000,NULL,0,'Iusto temporibus nostrum ullam optio. Illo omnis distinctio laboriosam sint sed voluptatum. Est dolo'),(24,1,'ee89f4c3e3b5e233dc49','','Chờ lấy hàng',0,33600000,NULL,0,'Et voluptatem velit cumque. Nam id ad quis rerum itaque. Placeat molestiae ea laborum quidem.'),(25,4,'5b52a3b0cdd9112b81e0','','Đã thanh toán',0,36000000,NULL,0,'Qui rerum incidunt voluptatem esse. Ad veritatis cumque quos nihil nulla culpa dolorem modi. Ut vel '),(26,8,'df65336a034294296971','','Đã thanh toán',0,40400000,NULL,0,'Est consequatur omnis ipsam. Aut doloremque placeat sit ut dolorum. Voluptatem tempora explicabo et '),(27,9,'0ee722c1289faa03b095','','Đã hủy',0,10800000,NULL,0,'Dicta et nostrum ipsa delectus excepturi. Iusto dignissimos voluptates qui id minus. Officia fugiat '),(28,2,'1f58c13cdb1f7e353ff9','','Đang giao',0,33700000,NULL,0,'Similique iusto sint eum perspiciatis aut. Aut est assumenda reprehenderit quo quasi rerum. Et liber'),(29,1,'36df7510b4c48dee163f','','Đã hủy',0,22000000,NULL,0,'Aliquam et sunt accusantium exercitationem dignissimos omnis. Laudantium nam possimus voluptatibus q'),(30,1,'fa90c6a9bddd89d014cf','','Chờ thanh toán',0,21400000,NULL,0,'Doloribus quia dolorum eligendi velit quasi pariatur. Voluptas dolorem inventore nam eaque iure aut.');
