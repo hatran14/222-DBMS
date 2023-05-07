@@ -12,10 +12,8 @@ export class MyCassandraController {
         return this.myCassandraService.query(query);
     }
 
-    // @Get()
-    // findAll() {
-    //     return this.myCassandraService.query('SELECT * FROM product');
-    // }
-
-
+    @Get('benchmark/:time/:query')
+    benchmark(@Param('time') time: number, @Param('query') query: string,) {
+        return this.myCassandraService.benchmark(time, query);
+    }
 }

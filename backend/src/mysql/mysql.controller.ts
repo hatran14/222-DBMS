@@ -12,10 +12,8 @@ export class MySqlController {
         return this.mySqlService.query(query);
     }
 
-    // @Get()
-    // findAll() {
-    //     return this.mySqlService.query('SELECT * FROM product');
-    // }
-
-
+    @Get('benchmark/:time/:query')
+    benchmark(@Param('time') time: number, @Param('query') query: string,) {
+        return this.mySqlService.benchmark(time, query);
+    }
 }

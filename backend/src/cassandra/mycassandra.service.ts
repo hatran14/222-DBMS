@@ -13,4 +13,15 @@ export class MyCassandraService {
         const result = await this.dbClient.execute(query);
         return result;
     }
+
+    async benchmark(time: number, query: string) {
+        const start = new Date().getTime();
+
+        for (let i = 0; i < time; i++) {
+            await this.query(query)
+        }
+
+        let elapsed = new Date().getTime() - start;
+        return { elapsed: elapsed };
+    }
 }

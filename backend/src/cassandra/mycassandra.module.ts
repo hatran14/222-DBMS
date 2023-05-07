@@ -7,7 +7,7 @@ import { MyCassandraController } from './mycassandra.controller';
     imports: [
         CassandraModule.forRoot({
             keyspace: 'store',
-            contactPoints: ['127.0.0.1'],
+            contactPoints: ['34.143.239.228'],
             localDataCenter: 'datacenter1',
         }),
     ],
