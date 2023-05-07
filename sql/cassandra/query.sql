@@ -1,16 +1,14 @@
---create index, chạy cái này trước
-CREATE INDEX idx_product_id ON `product`(id);
-CREATE INDEX idx_product_category ON `product_category`(productID, categoryID);
-CREATE INDEX idx_manufacturer ON `product`(manufacturer);
-CREATE INDEX idx_product_name ON `product`(name);
-CREATE INDEX idx_price ON `product`(price);
+-- create index, chạy cái này trước
+CREATE INDEX idx_product_id ON product(id);
+CREATE INDEX idx_product_category ON product_category(productID, categoryID);
+CREATE INDEX idx_manufacturer ON product(manufacturer);
+CREATE INDEX idx_product_name ON product(name);
+CREATE INDEX idx_price ON product(price);
 
 
---create procedure, chịu khó chạy từng cái
-CREATE PROCEDURE `GetAllProducts`()
-BEGIN
-    SELECT * FROM product;
-END;
+-- create procedure, chịu khó chạy từng cái
+CREATE FUNCTION GetAllProducts() RETURNS set<tuple<int, text, text, text, float>> LANGUAGE java AS 'return execute("SELECT id, name, manufacturer, description, price FROM product;").all();';
+CALL GetAllProducts();
 
 CREATE PROCEDURE `GetProductById`(IN productId INT)
 BEGIN
@@ -21,8 +19,8 @@ END;
 
 CREATE PROCEDURE `GetProductsByCategory`(IN categoryId INT)
 BEGIN
-    SELECT p.* FROM `product` p 
-    JOIN `product_category` pc ON p.id = pc.productID 
+    SELECT p.* FROM `product` p
+    JOIN `product_category` pc ON p.id = pc.productID
     WHERE pc.categoryID = categoryId
     ORDER BY p.id DESC;
 END;
@@ -47,8 +45,8 @@ END;
 
 CREATE PROCEDURE `GetProductsByCategoryAndPrice`(IN categoryId INT, IN minPrice INT, IN maxPrice INT)
 BEGIN
-    SELECT p.* FROM product p 
-    JOIN product_category pc ON p.id = pc.productID 
+    SELECT p.* FROM product p
+    JOIN product_category pc ON p.id = pc.productID
     WHERE pc.categoryID = categoryId AND p.price BETWEEN minPrice AND maxPrice
     ORDER BY p.id DESC;
 END;
