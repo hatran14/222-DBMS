@@ -43,11 +43,11 @@ create table if not exists `user` (
     primary key(`id`)
 );
 
-create table if not exists `order` (
+create table if not exists `orders` (
     `id` int not null auto_increment,
     `userId` int not null,
     `sessionId` varchar(20) not null,
-    `token` varchar(20) not null,
+    `tokens` varchar(20) not null,
     `status` varchar(100) not null,
     `tax` float not null,
     `subTotal` float not null,
@@ -66,7 +66,7 @@ create table if not exists `orderItem` (
     `price` float not null,
     primary key(`id`),
     foreign key (`productID`) references `product`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-    foreign key (`orderID`) references `order`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key (`orderID`) references `orders`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table if not exists `voucher` (
@@ -111,7 +111,7 @@ create table if not exists `transaction` (
     `updatedAt` datetime not null default CURRENT_TIMESTAMP,
     primary key (`id`, `userId`, `orderId`),
     foreign key (`userId`) references `user`(`id`) ON DELETE NO ACTION,
-    foreign key (`orderId`) references `order`(`id`) ON DELETE NO ACTION
+    foreign key (`orderId`) references `orders`(`id`) ON DELETE NO ACTION
 );
 
 create table if not exists `cart` (
@@ -331,7 +331,7 @@ INSERT INTO `user` VALUES
     (9,'Boyd Heaney','07645367153','mariana34@example.org','dd22b3f288f337789af2d6058dc75ca0d752a073','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,''),
     (10,'Dr. Eliezer Barrows','02143673376','hegmann.angeline@example.org','0b3bf810d3a2e46e6e9435524ca80b73c016c88a','2023-05-04 17:50:02','2023-05-04 17:50:02','2023-05-04 17:50:02',0,'');
 
-INSERT INTO `order` VALUES
+INSERT INTO `orders` VALUES
     (1,8,'bd987bb96709df6ee0f5','','Đã giao',0,40100000,NULL,0,'Aperiam quia omnis mollitia repellendus repudiandae tempore esse. Non sequi tempora eum tempora. Ull'),
     (2,3,'b1fd47bc3e97cb919a8a','','Đã thanh toán',0,20300000,NULL,0,'Mollitia a odio architecto ab et. Repellendus soluta a libero fugiat aperiam. Sit iusto quod sed com'),
     (3,8,'ea50706c465101a2ecc2','','Đã thanh toán',0,6900000,NULL,0,'Sed voluptatibus magnam ad quasi dolore cumque. Itaque quis deserunt itaque expedita facilis. Quisqu'),
@@ -362,3 +362,12 @@ INSERT INTO `order` VALUES
     (28,2,'1f58c13cdb1f7e353ff9','','Đang giao',0,33700000,NULL,0,'Similique iusto sint eum perspiciatis aut. Aut est assumenda reprehenderit quo quasi rerum. Et liber'),
     (29,1,'36df7510b4c48dee163f','','Đã hủy',0,22000000,NULL,0,'Aliquam et sunt accusantium exercitationem dignissimos omnis. Laudantium nam possimus voluptatibus q'),
     (30,1,'fa90c6a9bddd89d014cf','','Chờ thanh toán',0,21400000,NULL,0,'Doloribus quia dolorum eligendi velit quasi pariatur. Voluptas dolorem inventore nam eaque iure aut.');
+
+
+
+-- create index, chạy cái này trước
+CREATE INDEX idx_product_id ON `product`(id);
+CREATE INDEX idx_product_category ON `product_category`(productID, categoryID);
+CREATE INDEX idx_manufacturer ON `product`(manufacturer);
+CREATE INDEX idx_product_name ON `product`(name);
+CREATE INDEX idx_price ON `product`(price);

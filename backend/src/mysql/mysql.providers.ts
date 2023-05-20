@@ -9,8 +9,8 @@ export const databaseProviders = [
         host: '34.124.172.195',
         port: 3306,
         username: 'root',
-        password: 'root',
-        database: 'test',
+        password: 'password',
+        database: 'main_app',
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
         ],
